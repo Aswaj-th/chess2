@@ -7,7 +7,6 @@ const Clock = ({moveDetails, declareWinner}) => {
     const [timerBlack, setTimerBlack] = useState(600);
 
     useEffect(() => {
-        console.log("once")
         if(moveDetails.move === "w") {
             const timer1 = setInterval(() => {
                 if(timerWhite-1 === 0) {
