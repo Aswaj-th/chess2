@@ -1,10 +1,12 @@
 import React from 'react'
 import Row from './Row';
+import Clock from './Clock';
 import './mainboard.css'
 import jsonData from '../pieces.json';
-import { useState } from 'react';
+import { useState, useContext, createContext } from 'react';
 
-const createData = () => {
+const FullContext = createContext();
+const createBoard = () => {
     let arr = [];
     let j = 0;
     for(let i = 0; i < 64; i++) {
@@ -12,19 +14,17 @@ const createData = () => {
         else if(i < 48) arr.push(null);
         else arr.push(jsonData[j++]);
     }
-    //  console.log(arr);
     return arr;
 }
 
 const createMoveOnArray = () => {
     let arr = Array(64).fill(false, 0);
-    //console.log(arr);
     return arr;
 }
 
 function MainBoard() {
     
-    const [data, setData] = useState(createData());
+    const [data, setData] = useState(createBoard());
     const [moveOn, setMoveOn] = useState(createMoveOnArray());
     const [moveDetails, setMoveDetails] = useState({
         move: "w",
@@ -677,6 +677,25 @@ function MainBoard() {
         return checks;
     }
 
+    const declareWinner = (color) => {
+        console.log(`Game over ${color === "w" ? "white" : "black"} lost the game`);
+        setData(createBoard());
+        setMoveOn(createMoveOnArray());
+        setMoveDetails({
+            move: "w",
+            checks: []
+        })
+        setHighlight(null);
+        setKingPositions({
+            white: [7, 3],
+            black: [0, 3]
+        })
+        setIllegals({
+            w: 0,
+            b: 0
+        })
+    }
+
     const movePiece = (ind) => {
         const newData = [...data];
         newData[ind] = newData[highlight];
@@ -686,22 +705,7 @@ function MainBoard() {
             const newIllegals = {...illegals};
             newIllegals[moveDetails.move]++;
             if(newIllegals[moveDetails.move] > 2) {
-                console.log(`Game over ${moveDetails.move} lost the game`);
-                setData(createData());
-                setMoveOn(createMoveOnArray());
-                setMoveDetails({
-                    move: "w",
-                    checks: []
-                })
-                setHighlight(null);
-                setKingPositions({
-                    white: [7, 3],
-                    black: [0, 3]
-                })
-                setIllegals({
-                    w: 0,
-                    b: 0
-                })
+                declareWinner(moveDetails.move);
                 return;
             }
             setIllegals(newIllegals);
@@ -778,19 +782,20 @@ function MainBoard() {
         }
     }
 
-    //console.log(jsonData);
+    const elements = [];
+    for(let i = 0; i < 8; i++) {
+        elements.push(<Row key={i} row={i} />)
+    }
+    
     return (
+        <FullContext.Provider value={{data, movePiece, moveOn, findMoveAndUpdate, highlight}}>
         <div className="mainBoard">
-            <Row row={0} data={data} movePiece={movePiece} moveOn={moveOn.slice(0, 8)} findMoveAndUpdate={findMoveAndUpdate} highlight={highlight}/>
-            <Row row={1} data={data} movePiece={movePiece} moveOn={moveOn.slice(8, 16)} findMoveAndUpdate={findMoveAndUpdate} highlight={highlight}/>
-            <Row row={2} data={data} movePiece={movePiece} moveOn={moveOn.slice(16, 24)} findMoveAndUpdate={findMoveAndUpdate} highlight={highlight}/>
-            <Row row={3} data={data} movePiece={movePiece} moveOn={moveOn.slice(24, 32)} findMoveAndUpdate={findMoveAndUpdate} highlight={highlight}/>
-            <Row row={4} data={data} movePiece={movePiece} moveOn={moveOn.slice(32, 40)} findMoveAndUpdate={findMoveAndUpdate} highlight={highlight}/>
-            <Row row={5} data={data} movePiece={movePiece} moveOn={moveOn.slice(40, 48)} findMoveAndUpdate={findMoveAndUpdate} highlight={highlight}/>
-            <Row row={6} data={data} movePiece={movePiece} moveOn={moveOn.slice(48, 56)} findMoveAndUpdate={findMoveAndUpdate} highlight={highlight}/>
-            <Row row={7} data={data} movePiece={movePiece} moveOn={moveOn.slice(56)} findMoveAndUpdate={findMoveAndUpdate} highlight={highlight}/>
+            {elements}
         </div>
+        <Clock moveDetails={moveDetails} declareWinner={declareWinner} />
+        </FullContext.Provider>
     )
 }
 
+export {FullContext};
 export default MainBoard

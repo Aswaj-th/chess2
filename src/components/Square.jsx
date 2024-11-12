@@ -1,11 +1,15 @@
-import React from 'react'
+import {useContext} from 'react'
 import { ReactSVG } from 'react-svg';
+import { FullContext } from './MainBoard';
 import './square.css';
 // import { useState } from 'react';
 
-function Square({row, col, piece, movePiece, moveOn, findMoveAndUpdate, highlight}) {
+function Square({row, col}) {
 
-    const currentMoveOn = moveOn;
+    const {moveOn, data, highlight, movePiece, findMoveAndUpdate} = useContext(FullContext);
+    const piece = data[row*8+col];
+
+    const currentMoveOn = moveOn[row*8+col];
     
     const handleClick = (e) => {
         if(!currentMoveOn) findMoveAndUpdate(e, row, col, piece);
