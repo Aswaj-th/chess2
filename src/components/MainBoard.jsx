@@ -937,26 +937,82 @@ function MainBoard() {
 
     const checkForMate = (data, checksAndSafeSquares) => {
         const whoseMoveIsIt = moveDetails.move === 'w' ? 'black': 'white';
-        let [row, col] = kingPositions[whoseMoveIsIt];
-        if(row > 0) {
-            if(col > 0 && moveDetails.safeCells[(row-1)*8+col-1] && (data[(row-1)*8+col-1] == null || data[(row-1)*8+col-1].col === moveDetails.move)) return false;
-            if(moveDetails.safeCells[(row-1)*8+col] && (data[(row-1)*8+col] == null || data[(row-1)*8+col].col === moveDetails.move)) return false;
-            if(col < 7 && moveDetails.safeCells[(row-1)*8+col+1] && (data[(row-1)*8+col+1] == null || data[(row-1)*8+col+1].col === moveDetails.move)) return false;
+        let [krow, kcol] = kingPositions[whoseMoveIsIt];
+        if(krow > 0) {
+            if(kcol > 0 && moveDetails.safeCells[(krow-1)*8+kcol-1] && (data[(krow-1)*8+kcol-1] == null || data[(krow-1)*8+kcol-1].kcol === moveDetails.move)) return false;
+            if(moveDetails.safeCells[(krow-1)*8+kcol] && (data[(krow-1)*8+kcol] == null || data[(krow-1)*8+kcol].kcol === moveDetails.move)) return false;
+            if(kcol < 7 && moveDetails.safeCells[(krow-1)*8+kcol+1] && (data[(krow-1)*8+kcol+1] == null || data[(krow-1)*8+kcol+1].kcol === moveDetails.move)) return false;
         }
-        if(col > 0 && moveDetails.safeCells[row*8+col-1] && (data[row*8+col-1] == null || data[row*8+col-1].col === moveDetails.move)) return false;
-        if(col < 7 && moveDetails.safeCells[row*8+col+1] && (data[row*8+col+1] == null || data[row*8+col+1].col === moveDetails.move)) return false;
-        if(row < 7) {
-            if(col > 0 && moveDetails.safeCells[(row+1)*8+col-1] && (data[(row+1)*8+col-1] == null || data[(row+1)*8+col-1].col === moveDetails.move)) return false;
-            if(moveDetails.safeCells[(row+1)*8+col] && (data[(row+1)*8+col] == null || data[(row+1)*8+col].col === moveDetails.move)) return false;
-            if(col < 7 && moveDetails.safeCells[(row+1)*8+col+1] && (data[(row+1)*8+col+1] == null || data[(row+1)*8+col+1].col === moveDetails.move)) return false;
+        if(kcol > 0 && moveDetails.safeCells[krow*8+kcol-1] && (data[krow*8+kcol-1] == null || data[krow*8+kcol-1].kcol === moveDetails.move)) return false;
+        if(kcol < 7 && moveDetails.safeCells[krow*8+kcol+1] && (data[krow*8+kcol+1] == null || data[krow*8+kcol+1].kcol === moveDetails.move)) return false;
+        if(krow < 7) {
+            if(kcol > 0 && moveDetails.safeCells[(krow+1)*8+kcol-1] && (data[(krow+1)*8+kcol-1] == null || data[(krow+1)*8+kcol-1].kcol === moveDetails.move)) return false;
+            if(moveDetails.safeCells[(krow+1)*8+kcol] && (data[(krow+1)*8+kcol] == null || data[(krow+1)*8+kcol].kcol === moveDetails.move)) return false;
+            if(kcol < 7 && moveDetails.safeCells[(krow+1)*8+kcol+1] && (data[(krow+1)*8+kcol+1] == null || data[(krow+1)*8+kcol+1].kcol === moveDetails.move)) return false;
         }
         if(checksAndSafeSquares.checks.length > 1) return true;
         const check = checksAndSafeSquares.checks[0];
         const reachable = findReachable(data, whoseMoveIsIt);
-        // switch(check.type) {
-        //     case "t":
-
-        // }
+        let i = check.i, j = check.j;
+        switch(check.type) {
+            case "ub":
+                if(reachable[i*8+j]) return false;
+                return true;
+            case "t":
+                while(i < krow) {
+                    if(reachable[i*8+j]) return false;
+                    i++;
+                }
+                return true;
+            case "b":
+                while(i > krow) {
+                    if(reachable[i*8+j]) return false;
+                    i--;
+                }
+                return true;
+            case "l":
+                while(j < kcol) {
+                    if(reachable[i*8+j]) return false;
+                    j++;
+                }
+                return true;
+            case "r":
+                while(j > kcol) {
+                    if(reachable[i*8+j]) return false;
+                    j--;
+                }
+                return true;
+            case "tr":
+                while(i < krow) {
+                    if(reachable[i*8+j]) return false;
+                    i++;
+                    j++;
+                }
+                return true;
+            case "tl":
+                while(i < krow) {
+                    if(reachable[i*8+j]) return false;
+                    i++;
+                    j--;
+                }
+                return true;
+            case "br":
+                while(i > krow) {
+                    if(reachable[i*8+j]) return false;
+                    i--;
+                    j++;
+                }
+                return true;
+            case "bl":
+                while(i > krow) {
+                    if(reachable[i*8+j]) return false;
+                    i--;
+                    j--;
+                }
+                return true;
+            default:
+                console.log("error: Undefined check type: "+check.type);
+        }
     }
 
     const movePiece = (ind) => {
@@ -1017,6 +1073,7 @@ function MainBoard() {
         if(returnValuefromCheckForChecks.checks.length > 0) {
             if(checkForMate(newData, returnValuefromCheckForChecks)) {
                 declareWinner(moveDetails.move === "w" ? "b" : "w");
+                return;
             }
         }
         setMoveDetails({checks: returnValuefromCheckForChecks.checks, safeCells: returnValuefromCheckForChecks.safeCellsDupe, move: moveDetails.move === "b" ? "w" : "b" });
