@@ -772,6 +772,7 @@ function MainBoard() {
     }
 
     const findReachable = (data, whoseMoveIsIt) => {
+        console.log("move", whoseMoveIsIt);
         let reachable = Array(64).fill(false);
         data.forEach((el, ind) => {
             if(el) {
@@ -781,6 +782,7 @@ function MainBoard() {
                         let j = ind%8;
                         while(i < 7) {
                             i++;
+                            console.log("rook going down")
                             reachable[i*8+j] = true;
                             if(data[(i*8)+j] != null) break;
                         }
@@ -932,12 +934,13 @@ function MainBoard() {
                 }
             }
         })
+        console.log("Inside", reachable);
         return reachable;
     }
 
     const checkForMate = (data, checksAndSafeSquares) => {
-        const whoseMoveIsIt = moveDetails.move === 'w' ? 'black': 'white';
-        let [krow, kcol] = kingPositions[whoseMoveIsIt];
+        const whoseMoveIsIt = moveDetails.move === 'w' ? 'b': 'w';
+        let [krow, kcol] = kingPositions[whoseMoveIsIt === 'w' ? "white" : "black"];
         if(krow > 0) {
             if(kcol > 0 && moveDetails.safeCells[(krow-1)*8+kcol-1] && (data[(krow-1)*8+kcol-1] == null || data[(krow-1)*8+kcol-1].kcol === moveDetails.move)) return false;
             if(moveDetails.safeCells[(krow-1)*8+kcol] && (data[(krow-1)*8+kcol] == null || data[(krow-1)*8+kcol].kcol === moveDetails.move)) return false;
@@ -954,6 +957,8 @@ function MainBoard() {
         const check = checksAndSafeSquares.checks[0];
         const reachable = findReachable(data, whoseMoveIsIt);
         let i = check.i, j = check.j;
+        console.log("bottom half", check.type)
+        console.log(reachable);
         switch(check.type) {
             case "ub":
                 if(reachable[i*8+j]) return false;
@@ -982,28 +987,28 @@ function MainBoard() {
                     j--;
                 }
                 return true;
-            case "tr":
+            case "tl":
                 while(i < krow) {
                     if(reachable[i*8+j]) return false;
                     i++;
                     j++;
                 }
                 return true;
-            case "tl":
+            case "tr":
                 while(i < krow) {
                     if(reachable[i*8+j]) return false;
                     i++;
                     j--;
                 }
                 return true;
-            case "br":
+            case "bl":
                 while(i > krow) {
                     if(reachable[i*8+j]) return false;
                     i--;
                     j++;
                 }
                 return true;
-            case "bl":
+            case "br":
                 while(i > krow) {
                     if(reachable[i*8+j]) return false;
                     i--;
@@ -1067,6 +1072,22 @@ function MainBoard() {
                 white: [Math.floor(ind/8), ind%8],
                 black: kingPositions.black
             })
+        } else if(newData[ind].piece === 'p') {
+            if(newData[ind].col === 'w' && Math.floor(ind/8) === 0) {
+                newData[ind] = {
+                    ind: newData[ind].ind,
+                    col: "w",
+                    piece: "q",
+                    pic: "piecesPics/Chess_qlt45.svg"
+                }
+            } else if(newData[ind].col === 'b' && Math.floor(ind/8) === 7) {
+                newData[ind] = {
+                    ind: newData[ind].ind,
+                    col: "b",
+                    piece: "q",
+                    pic: "piecesPics/Chess_qdt45.svg"
+                }
+            }
         }
         setData(newData);
         returnValuefromCheckForChecks = checkForChecks(newData, moveDetails.move);

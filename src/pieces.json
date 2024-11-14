@@ -22,14 +22,14 @@
     "ind": 4,
     "col": "b",
     "piece": "q",
-    "pic": "piecesPics/Chess_qdt45.svg",
-    "moved": false
+    "pic": "piecesPics/Chess_qdt45.svg"
 },
 {
     "ind": 5,
     "col": "b",
     "piece": "k",
-    "pic": "piecesPics/Chess_kdt45.svg"
+    "pic": "piecesPics/Chess_kdt45.svg",
+    "moved": false
 },
 {
     "ind": 6,
@@ -169,14 +169,14 @@
     "ind": 28,
     "col": "w",
     "piece": "q",
-    "pic": "piecesPics/Chess_qlt45.svg",
-    "moved": false
+    "pic": "piecesPics/Chess_qlt45.svg"
 },
 {
     "ind": 29,
     "col": "w",
     "piece": "k",
-    "pic": "piecesPics/Chess_klt45.svg"
+    "pic": "piecesPics/Chess_klt45.svg",
+    "moved": false
 },
 {
     "ind": 30,

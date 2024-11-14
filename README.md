@@ -9,9 +9,10 @@ Creating a 2-Player Chess Game
 - Castling has been implemented
 - Resignation has been implemented
 - Checkmate has been implemented
+- Pawn promotion to queen has been implemented
 ## Limitations / Updates to be made:
 - En passant hasn't been implemented yet.
-- Pawn promotion hasn't been implemented yet.
+- Pawn promotion to pieces other than queen hasn't been implemented yet.
 - Stalemate hasn't been implemented yet.
 - Repeated-move draw hasn't been implemented yet.
 - UI showing win and loss
