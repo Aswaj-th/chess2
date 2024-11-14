@@ -5,7 +5,7 @@ import './mainboard.css'
 import jsonData from '../pieces.json';
 import { useState, useContext, createContext } from 'react';
 
-const FullContext = createContext();
+export const FullContext = createContext();
 const createBoard = () => {
     let arr = [];
     let j = 0;
@@ -28,7 +28,8 @@ function MainBoard() {
     const [moveOn, setMoveOn] = useState(createMoveOnArray());
     const [moveDetails, setMoveDetails] = useState({
         move: "w",
-        checks: []
+        checks: [],
+        safeCells: Array(64).fill(true)
     });
     const [highlight, setHighlight] = useState(null);
     const [kingPositions, setKingPositions] = useState({
@@ -304,6 +305,25 @@ function MainBoard() {
                     arr[(i+1)*8+j+1] = true;
                 }
             }
+            if(!(data[row*8+col].moved)) {
+                // console.log(data, moveDetails.safeCells);
+                if(row === 0) {
+                    if(data[0].piece === "r" && !(data[0].moved) && !data[1] && !data[2] && !data[3] && moveDetails.safeCells[1] && moveDetails.safeCells[2] && moveDetails.safeCells[3] && moveDetails.safeCells[4]) {
+                        arr[col-2] = true;
+                    }
+                    if(data[7].piece === "r" && !(data[7].moved) && !data[6] && !data[5] && moveDetails.safeCells[6] && moveDetails.safeCells[5] && moveDetails.safeCells[4]) {
+                        arr[col+2] = true;
+                    }
+                }
+                if(row === 7) {
+                    if(data[56].piece === "r" && !(data[56].moved) && !data[57] && !data[58] && !data[59] && moveDetails.safeCells[57] && moveDetails.safeCells[58] && moveDetails.safeCells[59] && moveDetails.safeCells[60]) {
+                        arr[56+col-2] = true;
+                    }
+                    if(data[63].piece === "r" && !(data[63].moved) && !data[62] && !data[61] && moveDetails.safeCells[62] && moveDetails.safeCells[61] && moveDetails.safeCells[60]) {
+                        arr[56+col+2] = true;
+                    }
+                }
+            }
             setMoveOn(arr);
         } else if(piece.piece === 'n') {
             let i = row;
@@ -350,7 +370,7 @@ function MainBoard() {
                 if(data[(i+1)*8+j] == null) {
                     arr[(i+1)*8+j] = true;
                 }
-                if(i === 1 && data[(i+2)*8+j] == null) {
+                if(i === 1 && data[(i+1)*8+j] == null && data[(i+2)*8+j] == null) {
                     arr[(i+2)*8+j] = true;
                 }
                 if(j > 0 && data[(i+1)*8+j-1] != null && data[(i+1)*8+j-1].col !== piece.col) {
@@ -363,7 +383,7 @@ function MainBoard() {
                 if(data[(i-1)*8+j] == null) {
                     arr[(i-1)*8+j] = true;
                 }
-                if(i === 6 && data[(i-2)*8+j] == null) {
+                if(i === 6 && data[(i-1)*8+j] == null && data[(i-2)*8+j] == null) {
                     arr[(i-2)*8+j] = true;
                 }
                 if(j > 0 && data[(i-1)*8+j-1] != null && data[(i-1)*8+j-1].col !== piece.col) {
@@ -379,16 +399,16 @@ function MainBoard() {
 
     const checkForChecks = (data, move) => {
         let checks = [];
+        let safeCellsDupe = Array(64).fill(true);
         data.forEach((el, ind) => {
             if(el) {
                 if(el.col === move) {
-                    // console.log(el)
                     if(el.piece === 'r') {
                         let i = Math.floor(ind/8);
                         let j = ind%8;
                         while(i < 7) {
                             i++;
-                            // console.log(i, j);
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -401,6 +421,7 @@ function MainBoard() {
                         i=Math.floor(ind/8);
                         while(j < 7) {
                             j++;
+                            safeCellsDupe[i*8+j] = false;
                             // console.log(i, j);
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
@@ -414,6 +435,7 @@ function MainBoard() {
                         j = ind%8;
                         while(i > 0) {
                             i--;
+                            safeCellsDupe[i*8+j] = false;
                             // console.log(i, j);
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
@@ -427,6 +449,7 @@ function MainBoard() {
                         i=Math.floor(ind/8);
                         while(j > 0) {
                             j--;
+                            safeCellsDupe[i*8+j] = false;
                             // console.log(i, j);
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
@@ -443,6 +466,7 @@ function MainBoard() {
                         while(i < 7 && j < 7) {
                             i++;
                             j++;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -457,6 +481,7 @@ function MainBoard() {
                         while(i < 7 && j > 0) {
                             i++;
                             j--;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -471,6 +496,7 @@ function MainBoard() {
                         while(i > 0 && j < 7) {
                             i--;
                             j++;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -485,6 +511,7 @@ function MainBoard() {
                         while(i > 0 && j > 0) {
                             i--;
                             j--;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -499,6 +526,7 @@ function MainBoard() {
                         let j = ind%8;
                         while(i < 7) {
                             i++;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -511,6 +539,7 @@ function MainBoard() {
                         i=Math.floor(ind/8);
                         while(j < 7) {
                             j++;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -523,6 +552,7 @@ function MainBoard() {
                         j = ind%8;
                         while(i > 0) {
                             i--;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -535,6 +565,7 @@ function MainBoard() {
                         i=Math.floor(ind/8);
                         while(j > 0) {
                             j--;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -549,6 +580,7 @@ function MainBoard() {
                         while(i < 7 && j < 7) {
                             i++;
                             j++;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -563,6 +595,7 @@ function MainBoard() {
                         while(i < 7 && j > 0) {
                             i++;
                             j--;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -577,6 +610,7 @@ function MainBoard() {
                         while(i > 0 && j < 7) {
                             i--;
                             j++;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -591,6 +625,7 @@ function MainBoard() {
                         while(i > 0 && j > 0) {
                             i--;
                             j--;
+                            safeCellsDupe[i*8+j] = false;
                             if(data[(i*8)+j] != null) {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
@@ -604,43 +639,67 @@ function MainBoard() {
                         let i = Math.floor(ind/8);
                         let j = ind%8;
                         if(i > 0) {
-                            if(j > 1 && data[(i-1)*8+j-2] != null && data[(i-1)*8+j-2].col !== move && data[(i-1)*8+j-2].piece === 'k') {
-                                // console.log(el);
-                                checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                            if(j > 1) {
+                                safeCellsDupe[(i-1)*8+j-2] = false;
+                                if(data[(i-1)*8+j-2] != null && data[(i-1)*8+j-2].col !== move && data[(i-1)*8+j-2].piece === 'k') {
+                                    // console.log(el);
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                }
                             }
-                            if(j < 6 && data[(i-1)*8+j+2] != null && data[(i-1)*8+j+2].col !== move && data[(i-1)*8+j+2].piece === 'k') {
-                                // console.log(el);
-                                checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                            if(j < 6) {
+                                safeCellsDupe[(i-1)*8+j+2] = false;
+                                if(data[(i-1)*8+j+2] != null && data[(i-1)*8+j+2].col !== move && data[(i-1)*8+j+2].piece === 'k') {
+                                    // console.log(el);
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                }
                             }
                         }
                         if(i > 1) {
-                            if(j > 0 && data[(i-2)*8+j-1] != null && data[(i-2)*8+j-1].col !== move && data[(i-2)*8+j-1].piece === 'k') {
-                                // console.log(el);
-                                checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                            if(j > 0) {
+                                safeCellsDupe[(i-2)*8+j-1] = false;
+                                if(data[(i-2)*8+j-1] != null && data[(i-2)*8+j-1].col !== move && data[(i-2)*8+j-1].piece === 'k') {
+                                    // console.log(el);
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                }
                             }
-                            if(j < 7 && data[(i-2)*8+j+1] != null && data[(i-2)*8+j+1].col !== move && data[(i-2)*8+j+1].piece === 'k') {
-                                // console.log(el);
-                                checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                            if(j < 7) {
+                                safeCellsDupe[(i-2)*8+j+1] = false;
+                                if(data[(i-2)*8+j+1] != null && data[(i-2)*8+j+1].col !== move && data[(i-2)*8+j+1].piece === 'k') {
+                                    // console.log(el);
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                }
                             }
                         }
                         if(i < 6) {
-                            if(j > 0 && data[(i+2)*8+j-1] != null && data[(i+2)*8+j-1].col !== move && data[(i+2)*8+j-1].piece === 'k') {
-                                // console.log(el);
-                                checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                            if(j > 0) {
+                                safeCellsDupe[(i+2)*8+j-1] = false;
+                                if(data[(i+2)*8+j-1] != null && data[(i+2)*8+j-1].col !== move && data[(i+2)*8+j-1].piece === 'k') {
+                                    // console.log(el);
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                }
                             }
-                            if(j < 7 && data[(i+2)*8+j+1] != null && data[(i+2)*8+j+1].col !== move && data[(i+2)*8+j+1].piece === 'k') {
-                                // console.log(el);
-                                checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                            if(j < 7) {
+                                safeCellsDupe[(i+2)*8+j+1] = false;
+                                if(data[(i+2)*8+j+1] != null && data[(i+2)*8+j+1].col !== move && data[(i+2)*8+j+1].piece === 'k') {
+                                    // console.log(el);
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                }
                             }
                         }
                         if(i < 7) {
-                            if(j > 1 && data[(i+1)*8+j-2] != null && data[(i+1)*8+j-2].col !== move && data[(i+1)*8+j-2].piece === 'k') {
-                                // console.log(el);
-                                checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                            if(j > 1) {
+                                safeCellsDupe[(i+1)*8+j-2] = false;
+                                if(data[(i+1)*8+j-2] != null && data[(i+1)*8+j-2].col !== move && data[(i+1)*8+j-2].piece === 'k') {
+                                    // console.log(el);
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                }
                             }
-                            if(j < 6 && data[(i+1)*8+j+2] != null && data[(i+1)*8+j+2].col !== move && data[(i+1)*8+j+2].piece === 'k') {
-                                // console.log(el);
-                                checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                            if(j < 6) {
+                                safeCellsDupe[(i+1)*8+j+2] = false;
+                                if(data[(i+1)*8+j+2] != null && data[(i+1)*8+j+2].col !== move && data[(i+1)*8+j+2].piece === 'k') {
+                                    // console.log(el);
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                }
                             }
                         }
                     } else if(el.piece === 'p') {
@@ -648,24 +707,36 @@ function MainBoard() {
                         let j = ind%8;
                         if(el.col === 'w') {
                             if(i < 7) {
-                                if(j < 7 && data[(i+1)*8+j+1] && data[(i+1)*8+j+1].col !== move && data[(i+1)*8+j+1].piece === 'k') {
-                                    // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                if(j < 7) {
+                                    safeCellsDupe[(i+1)*8+j+1] = false;
+                                    if(data[(i+1)*8+j+1] && data[(i+1)*8+j+1].col !== move && data[(i+1)*8+j+1].piece === 'k') {
+                                        // console.log(el);
+                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    }
                                 }
-                                if(j > 0 && data[(i+1)*8+j-1] && data[(i+1)*8+j-1].col !== move && data[(i+1)*8+j-1].piece === 'k') {
-                                    // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                if(j > 0) {
+                                    safeCellsDupe[(i+1)*8+j-1] = false;
+                                    if(data[(i+1)*8+j-1] && data[(i+1)*8+j-1].col !== move && data[(i+1)*8+j-1].piece === 'k') {
+                                        // console.log(el);
+                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    }
                                 }
                             }
                         } else if(el.col === 'b') {
                             if(i > 0) {
-                                if(j < 7 && data[(i-1)*8+j+1] && data[(i-1)*8+j+1].col !== move && data[(i-1)*8+j+1].piece === 'k') {
-                                    // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                if(j < 7) {
+                                    safeCellsDupe[(i-1)*8+j+1] = false;
+                                    if(data[(i-1)*8+j+1] && data[(i-1)*8+j+1].col !== move && data[(i-1)*8+j+1].piece === 'k') {
+                                        // console.log(el);
+                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    }
                                 }
-                                if(j > 0 && data[(i-1)*8+j-1] && data[(i-1)*8+j-1].col !== move && data[(i-1)*8+j-1].piece === 'k') {
-                                    // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                if(j > 0) {
+                                    safeCellsDupe[(i-1)*8+j-1] = false;
+                                    if(data[(i-1)*8+j-1] && data[(i-1)*8+j-1].col !== move && data[(i-1)*8+j-1].piece === 'k') {
+                                        // console.log(el);
+                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    }
                                 }
                             }
                         }
@@ -674,7 +745,7 @@ function MainBoard() {
             }
         })
         console.log("checks: "+checks.length);
-        return checks;
+        return {checks: checks, safeCellsDupe: safeCellsDupe};
     }
 
     const declareWinner = (color) => {
@@ -683,7 +754,8 @@ function MainBoard() {
         setMoveOn(createMoveOnArray());
         setMoveDetails({
             move: "w",
-            checks: []
+            checks: [],
+            safeCells: Array(64).fill(true)
         })
         setHighlight(null);
         setKingPositions({
@@ -700,7 +772,8 @@ function MainBoard() {
         const newData = [...data];
         newData[ind] = newData[highlight];
         newData[highlight] = null;
-        if(checkForChecks(newData, moveDetails.move === 'w' ? 'b' : 'w').length > 0) {
+        let returnValuefromCheckForChecks = checkForChecks(newData, moveDetails.move === 'w' ? 'b' : 'w');
+        if(returnValuefromCheckForChecks.checks.length > 0) {
             console.log("Illegal move");
             const newIllegals = {...illegals};
             newIllegals[moveDetails.move]++;
@@ -714,60 +787,50 @@ function MainBoard() {
             return;
         }
         if(newData[ind].piece === 'k' && moveDetails.move === 'b') {
+            if(!(newData[ind].moved)) {
+                if(ind == 2) {
+                    newData[3] = newData[0];
+                    newData[0] = null;
+                    newData[3].moved = true;
+                } else if(ind == 6) {
+                    newData[5] = newData[7];
+                    newData[7] = null;
+                    newData[5].moved = true;
+                }
+            }
+            newData[ind].moved = true;
             setKingPositions({
                 white: kingPositions.white,
                 black: [Math.floor(ind/8), ind%8]
             })
         } else if(newData[ind].piece === 'k' && moveDetails.move === 'w') {
+            if(!(newData[ind].moved)) {
+                if(ind == 58) {
+                    newData[59] = newData[56];
+                    newData[56] = null;
+                    newData[59].moved = true;
+                } else if(ind == 62) {
+                    newData[61] = newData[63];
+                    newData[63] = null;
+                    newData[61].moved = true;
+                }
+            }
+            newData[ind].moved = true;
             setKingPositions({
                 white: [Math.floor(ind/8), ind%8],
                 black: kingPositions.black
             })
         }
         setData(newData);
-        setMoveDetails({checks: checkForChecks(newData, moveDetails.move), move: moveDetails.move === "b" ? "w" : "b" });
+        returnValuefromCheckForChecks = checkForChecks(newData, moveDetails.move);
+        setMoveDetails({checks: returnValuefromCheckForChecks.checks, safeCells: returnValuefromCheckForChecks.safeCellsDupe, move: moveDetails.move === "b" ? "w" : "b" });
         setMoveOn(createMoveOnArray());
         setHighlight(null);
     }
 
-    const handleCheck = () => {
-        //let possibleMoves = [1, 2, 3, 4, 5, 6, 7, 8]
-        return 0;
-    }
 
-    // const checkForCheckmate = () => {
-    //     let possibleMoves = [];
-    //     if(moveDetails.move === 'b') {
-    //         if(kingPositions.black[0] > 0) {
-    //             if(kingPositions.black[1] > 0) possibleMoves.push(1);
-    //             possibleMoves.push(2);
-    //             if(kingPositions.black[1] < 7) possibleMoves.push(3);
-    //         }
-    //         if(kingPositions.black[1] > 0) possibleMoves.push(4);
-    //         if(kingPositions.black[1] < 7) possibleMoves.push(5);
-    //         if(kingPositions.black[0] < 7) {
-    //             if(kingPositions.black[1] > 0) possibleMoves.push(6);
-    //             possibleMoves.push(7);
-    //             if(kingPositions.black[1] < 7) possibleMoves.push(8);
-    //         }
-    //     } else if(moveDetails.move === 'w') {
-    //         if(kingPositions.white[0] > 0) {
-    //             if(kingPositions.white[1] > 0) possibleMoves.push(1);
-    //             possibleMoves.push(2);
-    //             if(kingPositions.white[1] < 7) possibleMoves.push(3);
-    //         }
-    //         if(kingPositions.white[1] > 0) possibleMoves.push(4);
-    //         if(kingPositions.white[1] < 7) possibleMoves.push(5);
-    //         if(kingPositions.white[0] < 7) {
-    //             if(kingPositions.white[1] > 0) possibleMoves.push(6);
-    //             possibleMoves.push(7);
-    //             if(kingPositions.white[1] < 7) possibleMoves.push(8);
-    //         }
-    //     }
-        
-    // }
 
-    const findMoveAndUpdate = (e, row, col, piece) => {
+    const findMoveAndUpdateMoveOn = (e, row, col, piece) => {
         // console.log(e.currentTarget);
         if(piece === null) return;
         if(!moveOn[(row*8)+col] && (moveDetails.move === piece.col)) {
@@ -775,7 +838,6 @@ function MainBoard() {
                 if(piece.piece !== 'k') return;
             } else if(moveDetails.checks.length > 0) {
                 console.log(moveDetails.checks);
-                handleCheck();
             }
             setHighlight(row*8+col);
             changeMoveOn(row, col, piece);
@@ -788,7 +850,7 @@ function MainBoard() {
     }
     
     return (
-        <FullContext.Provider value={{data, movePiece, moveOn, findMoveAndUpdate, highlight}}>
+        <FullContext.Provider value={{data, movePiece, moveOn, findMoveAndUpdateMoveOn, highlight}}>
         <div className="mainBoard">
             {elements}
         </div>
@@ -797,5 +859,4 @@ function MainBoard() {
     )
 }
 
-export {FullContext};
 export default MainBoard

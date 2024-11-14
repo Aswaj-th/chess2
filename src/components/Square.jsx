@@ -6,13 +6,13 @@ import './square.css';
 
 function Square({row, col}) {
 
-    const {moveOn, data, highlight, movePiece, findMoveAndUpdate} = useContext(FullContext);
+    const {moveOn, data, highlight, movePiece, findMoveAndUpdateMoveOn} = useContext(FullContext);
     const piece = data[row*8+col];
 
     const currentMoveOn = moveOn[row*8+col];
     
     const handleClick = (e) => {
-        if(!currentMoveOn) findMoveAndUpdate(e, row, col, piece);
+        if(!currentMoveOn) findMoveAndUpdateMoveOn(e, row, col, piece);
         else movePiece(row*8+col);
     }
     const white = ((row+col)%2 === 0);
