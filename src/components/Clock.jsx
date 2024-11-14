@@ -1,10 +1,15 @@
 import { useState, useEffefct, useEffect } from 'react';
 import './clock.css'
 
-const Clock = ({moveDetails, declareWinner}) => {
+const Clock = ({moveDetails, declareWinner, gameOver}) => {
 
     const [timerWhite, setTimerWhite] = useState(600);
     const [timerBlack, setTimerBlack] = useState(600);
+
+    useEffect(() => {
+        setTimerBlack(600);
+        setTimerWhite(600);
+    }, [gameOver])
 
     useEffect(() => {
         if(moveDetails.move === "w") {

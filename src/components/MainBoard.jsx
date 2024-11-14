@@ -4,8 +4,9 @@ import Clock from './Clock';
 import './mainboard.css'
 import jsonData from '../pieces.json';
 import { useState, useContext, createContext } from 'react';
+import ResignArea from './ResignArea';
+import FullContext from './context';
 
-export const FullContext = createContext();
 const createBoard = () => {
     let arr = [];
     let j = 0;
@@ -31,6 +32,7 @@ function MainBoard() {
         checks: [],
         safeCells: Array(64).fill(true)
     });
+    const [gameOver, setGameOver] = useState(false);
     const [highlight, setHighlight] = useState(null);
     const [kingPositions, setKingPositions] = useState({
         white: [7, 3],
@@ -62,7 +64,7 @@ function MainBoard() {
             while(j < 7) {
                 j++;
                 if(data[(i*8)+j] != null) {
-                    console.log(data[i*8+j])
+                    // console.log(data[i*8+j])
                     if(data[(i*8)+j].col !== piece.col) {
                         arr[(i*8)+j] = true;
                     }
@@ -744,7 +746,7 @@ function MainBoard() {
                 }
             }
         })
-        console.log("checks: "+checks.length);
+        // console.log("checks: "+checks.length);
         return {checks: checks, safeCellsDupe: safeCellsDupe};
     }
 
@@ -766,6 +768,7 @@ function MainBoard() {
             w: 0,
             b: 0
         })
+        setGameOver((val) => !val);
     }
 
     const movePiece = (ind) => {
@@ -851,10 +854,11 @@ function MainBoard() {
     
     return (
         <FullContext.Provider value={{data, movePiece, moveOn, findMoveAndUpdateMoveOn, highlight}}>
+        <ResignArea declareWinner={declareWinner} />
         <div className="mainBoard">
             {elements}
         </div>
-        <Clock moveDetails={moveDetails} declareWinner={declareWinner} />
+        <Clock moveDetails={moveDetails} declareWinner={declareWinner} gameOver={gameOver}/>
         </FullContext.Provider>
     )
 }

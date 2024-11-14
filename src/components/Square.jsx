@@ -1,6 +1,6 @@
 import {useContext} from 'react'
 import { ReactSVG } from 'react-svg';
-import { FullContext } from './MainBoard';
+import FullContext from './context';
 import './square.css';
 // import { useState } from 'react';
 
