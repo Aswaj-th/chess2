@@ -415,7 +415,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "t"});
                                 }
                                 break;
                             }
@@ -429,7 +429,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "l"});
                                 }
                                 break;
                             }
@@ -443,7 +443,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "b"});
                                 }
                                 break;
                             }
@@ -457,7 +457,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "r"});
                                 }
                                 break;
                             }
@@ -473,7 +473,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "tl"});
                                 }
                                 break;
                             }
@@ -488,7 +488,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "tr"});
                                 }
                                 break;
                             }
@@ -503,7 +503,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "bl"});
                                 }
                                 break;
                             }
@@ -518,7 +518,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "br"});
                                 }
                                 break;
                             }
@@ -533,7 +533,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "t"});
                                 }
                                 break;
                             }
@@ -546,7 +546,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "l"});
                                 }
                                 break;
                             }
@@ -559,7 +559,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "b"});
                                 }
                                 break;
                             }
@@ -572,7 +572,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "r"});
                                 }
                                 break;
                             }
@@ -587,7 +587,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "tl"});
                                 }
                                 break;
                             }
@@ -602,7 +602,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "tr"});
                                 }
                                 break;
                             }
@@ -617,7 +617,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "bl"});
                                 }
                                 break;
                             }
@@ -632,7 +632,7 @@ function MainBoard() {
                                 if(data[(i*8)+j].col === move) break;
                                 if(data[(i*8)+j].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "br"});
                                 }
                                 break;
                             }
@@ -645,14 +645,14 @@ function MainBoard() {
                                 safeCellsDupe[(i-1)*8+j-2] = false;
                                 if(data[(i-1)*8+j-2] != null && data[(i-1)*8+j-2].col !== move && data[(i-1)*8+j-2].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
                                 }
                             }
                             if(j < 6) {
                                 safeCellsDupe[(i-1)*8+j+2] = false;
                                 if(data[(i-1)*8+j+2] != null && data[(i-1)*8+j+2].col !== move && data[(i-1)*8+j+2].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
                                 }
                             }
                         }
@@ -661,14 +661,14 @@ function MainBoard() {
                                 safeCellsDupe[(i-2)*8+j-1] = false;
                                 if(data[(i-2)*8+j-1] != null && data[(i-2)*8+j-1].col !== move && data[(i-2)*8+j-1].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
                                 }
                             }
                             if(j < 7) {
                                 safeCellsDupe[(i-2)*8+j+1] = false;
                                 if(data[(i-2)*8+j+1] != null && data[(i-2)*8+j+1].col !== move && data[(i-2)*8+j+1].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
                                 }
                             }
                         }
@@ -677,14 +677,14 @@ function MainBoard() {
                                 safeCellsDupe[(i+2)*8+j-1] = false;
                                 if(data[(i+2)*8+j-1] != null && data[(i+2)*8+j-1].col !== move && data[(i+2)*8+j-1].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
                                 }
                             }
                             if(j < 7) {
                                 safeCellsDupe[(i+2)*8+j+1] = false;
                                 if(data[(i+2)*8+j+1] != null && data[(i+2)*8+j+1].col !== move && data[(i+2)*8+j+1].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
                                 }
                             }
                         }
@@ -693,14 +693,14 @@ function MainBoard() {
                                 safeCellsDupe[(i+1)*8+j-2] = false;
                                 if(data[(i+1)*8+j-2] != null && data[(i+1)*8+j-2].col !== move && data[(i+1)*8+j-2].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
                                 }
                             }
                             if(j < 6) {
                                 safeCellsDupe[(i+1)*8+j+2] = false;
                                 if(data[(i+1)*8+j+2] != null && data[(i+1)*8+j+2].col !== move && data[(i+1)*8+j+2].piece === 'k') {
                                     // console.log(el);
-                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                    checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
                                 }
                             }
                         }
@@ -708,36 +708,36 @@ function MainBoard() {
                         let i = Math.floor(ind/8);
                         let j = ind%8;
                         if(el.col === 'w') {
-                            if(i < 7) {
-                                if(j < 7) {
-                                    safeCellsDupe[(i+1)*8+j+1] = false;
-                                    if(data[(i+1)*8+j+1] && data[(i+1)*8+j+1].col !== move && data[(i+1)*8+j+1].piece === 'k') {
-                                        // console.log(el);
-                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
-                                    }
-                                }
-                                if(j > 0) {
-                                    safeCellsDupe[(i+1)*8+j-1] = false;
-                                    if(data[(i+1)*8+j-1] && data[(i+1)*8+j-1].col !== move && data[(i+1)*8+j-1].piece === 'k') {
-                                        // console.log(el);
-                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
-                                    }
-                                }
-                            }
-                        } else if(el.col === 'b') {
                             if(i > 0) {
                                 if(j < 7) {
                                     safeCellsDupe[(i-1)*8+j+1] = false;
                                     if(data[(i-1)*8+j+1] && data[(i-1)*8+j+1].col !== move && data[(i-1)*8+j+1].piece === 'k') {
                                         // console.log(el);
-                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
                                     }
                                 }
                                 if(j > 0) {
                                     safeCellsDupe[(i-1)*8+j-1] = false;
                                     if(data[(i-1)*8+j-1] && data[(i-1)*8+j-1].col !== move && data[(i-1)*8+j-1].piece === 'k') {
                                         // console.log(el);
-                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8});
+                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
+                                    }
+                                }
+                            }
+                        } else if(el.col === 'b') {
+                            if(i < 7) {
+                                if(j < 7) {
+                                    safeCellsDupe[(i+1)*8+j+1] = false;
+                                    if(data[(i+1)*8+j+1] && data[(i+1)*8+j+1].col !== move && data[(i+1)*8+j+1].piece === 'k') {
+                                        // console.log(el);
+                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
+                                    }
+                                }
+                                if(j > 0) {
+                                    safeCellsDupe[(i+1)*8+j-1] = false;
+                                    if(data[(i+1)*8+j-1] && data[(i+1)*8+j-1].col !== move && data[(i+1)*8+j-1].piece === 'k') {
+                                        // console.log(el);
+                                        checks.push({el: el, i: Math.floor(ind/8), j: ind%8, type: "ub"});
                                     }
                                 }
                             }
@@ -746,7 +746,7 @@ function MainBoard() {
                 }
             }
         })
-        // console.log("checks: "+checks.length);
+        console.log("checks: "+checks.length);
         return {checks: checks, safeCellsDupe: safeCellsDupe};
     }
 
@@ -769,6 +769,194 @@ function MainBoard() {
             b: 0
         })
         setGameOver((val) => !val);
+    }
+
+    const findReachable = (data, whoseMoveIsIt) => {
+        let reachable = Array(64).fill(false);
+        data.forEach((el, ind) => {
+            if(el) {
+                if(el.col === whoseMoveIsIt) {
+                    if(el.piece === 'r') {
+                        let i = Math.floor(ind/8);
+                        let j = ind%8;
+                        while(i < 7) {
+                            i++;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i=Math.floor(ind/8);
+                        while(j < 7) {
+                            j++;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        j = ind%8;
+                        while(i > 0) {
+                            i--;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i=Math.floor(ind/8);
+                        while(j > 0) {
+                            j--;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                    } else if(el.piece === 'b') {
+                        let i = Math.floor(ind/8);
+                        let j = ind%8;
+                        while(i < 7 && j < 7) {
+                            i++;
+                            j++;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i = Math.floor(ind/8);
+                        j = ind%8;
+                        while(i < 7 && j > 0) {
+                            i++;
+                            j--;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i = Math.floor(ind/8);
+                        j = ind%8;
+                        while(i > 0 && j < 7) {
+                            i--;
+                            j++;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i = Math.floor(ind/8);
+                        j = ind%8;
+                        while(i > 0 && j > 0) {
+                            i--;
+                            j--;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                    } else if(el.piece === 'q') {
+                        let i = Math.floor(ind/8);
+                        let j = ind%8;
+                        while(i < 7) {
+                            i++;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i=Math.floor(ind/8);
+                        while(j < 7) {
+                            j++;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        j = ind%8;
+                        while(i > 0) {
+                            i--;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i=Math.floor(ind/8);
+                        while(j > 0) {
+                            j--;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i=Math.floor(ind/8);
+                        j=ind%8;
+                        while(i < 7 && j < 7) {
+                            i++;
+                            j++;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i = Math.floor(ind/8);
+                        j = ind%8;
+                        while(i < 7 && j > 0) {
+                            i++;
+                            j--;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i = Math.floor(ind/8);
+                        j = ind%8;
+                        while(i > 0 && j < 7) {
+                            i--;
+                            j++;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                        i = Math.floor(ind/8);
+                        j = ind%8;
+                        while(i > 0 && j > 0) {
+                            i--;
+                            j--;
+                            reachable[i*8+j] = true;
+                            if(data[(i*8)+j] != null) break;
+                        }
+                    } else if(el.piece === 'n') {
+                        let i = Math.floor(ind/8);
+                        let j = ind%8;
+                        if(i > 0) {
+                            if(j > 1) reachable[(i-1)*8+j-2] = true;
+                            if(j < 6) reachable[(i-1)*8+j+2] = true;
+                        }
+                        if(i > 1) {
+                            if(j > 0) reachable[(i-2)*8+j-1] = true;
+                            if(j < 7) reachable[(i-2)*8+j+1] = true;
+                        }
+                        if(i < 6) {
+                            if(j > 0) reachable[(i+2)*8+j-1] = true;
+                            if(j < 7) reachable[(i+2)*8+j+1] = true;
+                        }
+                        if(i < 7) {
+                            if(j > 1) reachable[(i+1)*8+j-2] = true;
+                            if(j < 6) reachable[(i+1)*8+j+2] = true;
+                        }
+                    } else if(el.piece === 'p') {
+                        let i = Math.floor(ind/8);
+                        let j = ind%8;
+                        if(el.col === 'w') {
+                            if(i > 0) {
+                                reachable[(i-1)*8+j] = true;
+                                if(j < 7) reachable[(i-1)*8+j+1] = true;
+                                if(j > 0) reachable[(i-1)*8+j-1] = true;
+                            }
+                        } else if(el.col === 'b') {
+                            if(i < 7) {
+                                reachable[(i+1)*8+j] = true;
+                                if(j < 7) reachable[(i+1)*8+j+1] = true;
+                                if(j > 0) reachable[(i+1)*8+j-1] = true;
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        return reachable;
+    }
+
+    const checkForMate = (data, checksAndSafeSquares) => {
+        const whoseMoveIsIt = moveDetails.move === 'w' ? 'black': 'white';
+        let [row, col] = kingPositions[whoseMoveIsIt];
+        if(row > 0) {
+            if(col > 0 && moveDetails.safeCells[(row-1)*8+col-1] && (data[(row-1)*8+col-1] == null || data[(row-1)*8+col-1].col === moveDetails.move)) return false;
+            if(moveDetails.safeCells[(row-1)*8+col] && (data[(row-1)*8+col] == null || data[(row-1)*8+col].col === moveDetails.move)) return false;
+            if(col < 7 && moveDetails.safeCells[(row-1)*8+col+1] && (data[(row-1)*8+col+1] == null || data[(row-1)*8+col+1].col === moveDetails.move)) return false;
+        }
+        if(col > 0 && moveDetails.safeCells[row*8+col-1] && (data[row*8+col-1] == null || data[row*8+col-1].col === moveDetails.move)) return false;
+        if(col < 7 && moveDetails.safeCells[row*8+col+1] && (data[row*8+col+1] == null || data[row*8+col+1].col === moveDetails.move)) return false;
+        if(row < 7) {
+            if(col > 0 && moveDetails.safeCells[(row+1)*8+col-1] && (data[(row+1)*8+col-1] == null || data[(row+1)*8+col-1].col === moveDetails.move)) return false;
+            if(moveDetails.safeCells[(row+1)*8+col] && (data[(row+1)*8+col] == null || data[(row+1)*8+col].col === moveDetails.move)) return false;
+            if(col < 7 && moveDetails.safeCells[(row+1)*8+col+1] && (data[(row+1)*8+col+1] == null || data[(row+1)*8+col+1].col === moveDetails.move)) return false;
+        }
+        if(checksAndSafeSquares.checks.length > 1) return true;
+        const check = checksAndSafeSquares.checks[0];
+        const reachable = findReachable(data, whoseMoveIsIt);
+        // switch(check.type) {
+        //     case "t":
+
+        // }
     }
 
     const movePiece = (ind) => {
@@ -826,6 +1014,11 @@ function MainBoard() {
         }
         setData(newData);
         returnValuefromCheckForChecks = checkForChecks(newData, moveDetails.move);
+        if(returnValuefromCheckForChecks.checks.length > 0) {
+            if(checkForMate(newData, returnValuefromCheckForChecks)) {
+                declareWinner(moveDetails.move === "w" ? "b" : "w");
+            }
+        }
         setMoveDetails({checks: returnValuefromCheckForChecks.checks, safeCells: returnValuefromCheckForChecks.safeCellsDupe, move: moveDetails.move === "b" ? "w" : "b" });
         setMoveOn(createMoveOnArray());
         setHighlight(null);

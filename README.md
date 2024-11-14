@@ -9,7 +9,7 @@ Creating a 2-Player Chess Game
 - Castling has been implemented
 - Resignation has been implemented
 ## Limitations / Updates to be made:
-- Checkmate isn't implemented yet. The user has to make illegal moves for the game to end.
+- Checkmate isn't implemented for single checks yet. It is implemented for double checks though. The user has to make illegal moves for the game to end.
 - En passant hasn't been implemented yet.
 - Pawn promotion hasn't been implemented yet.
 - Stalemate hasn't been implemented yet.
